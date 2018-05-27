@@ -63,19 +63,6 @@ class Game:
 
             temp_name = s.recv(32)
             name = temp_name.decode('utf')
-            '''
-            n = unpack('<32c', temp_name)
-            a = []
-
-            for i in n:
-                if i == b'\x00':
-                    break
-                else:
-                    a += i
-
-            for letter in a:
-                name += chr(letter)
-            '''
 
             flag = s.recv(1)
             print("Flags: ", flag)
