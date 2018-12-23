@@ -14,30 +14,30 @@ Byte	Meaning<br/>
 3-34	Recipient Name, 32 bytes total.<br/>
 35-66	Sender Name, 32 bytes total.<br/>
 67+	Message. Length was specified earlier.<br/>
-CHANGEROOM<br/>
+### CHANGEROOM<br/>
 Sent by the client only, to change rooms. If the server needs to change the room a client is in, it should send an updated room and character message to explain the new location.<br/>
 Byte	Meaning<br/>
 0	Type, 2<br/>
 1-2	Number of the room to change to. The server will send an error if an inappropriate choice is made.<br/>
-FIGHT<br/>
+### FIGHT<br/>
 Initiate a fight against monsters. This will start a fight in the current room against the monsters which are presently in the room. Players with the join battle flag set, who are in the same room, will automatically join in the fight. The server will allocate damage and rewards after the battle, and inform clients appropriately. Clients should expect a slew of messages after starting a fight, especially in a crowded room. This message is sent by the client. If a fight should ensue in the room the player is in, the server should notify the client, but not by use of this message.<br/>
 Byte	Meaning<br/>
 0	Type, 3<br/>
-PVPFIGHT<br/>
+### PVPFIGHT<br/>
 Initiate a fight against another player. The server will determine the results of the fight, and allocate damage and rewards appropriately. The server may include players with join battle in the fight, on either side. Monsters may or may not be involved in the fight as well. This message is sent by the client.<br/>
 Byte	Meaning<br/>
 0	Type, 4<br/>
 1-32	Name of target player<br/>
-LOOT<br/>
+### LOOT<br/>
 Loot gold from a dead player or monster. The server may automatically gift gold from dead monsters to the players who have killed them, or wait for a LOOT message. The server is responsible for communicating the results of the LOOT to the player, by sending an updated CHARACTER message. This message is sent by the client.<br/>
 Byte	Meaning<br/>
 0	Type, 5<br/>
 1-32	Name of target player<br/>
-START<br/>
+### START<br/>
 Start playing the game. A client will send a CHARACTER message to the server to explain character stats, which the server may either accept or deny (by use of an ERROR message). If the stats are accepted, the server will not enter the player into the game world until it has received START. This is sent by the client.<br/>
 Byte	Meaning<br/>
 0	Type, 6<br/>
-ERROR<br/>
+### ERROR<br/>
 Notify the client of an error. This is used to indicate stat violations, inappropriate room connections, attempts to loot nonexistent or living players, attempts to attack players or monsters in different rooms, etc.<br/>
 Byte	Meaning<br/>
 0	Type, 7<br/>
@@ -55,12 +55,12 @@ Code	Meaning<br/>
 6	No target. Sent in response to attempts to loot nonexistent players, fight players in different rooms, etc.<br/>
 7	No fight. Sent if the requested fight cannot happen for other reasons (i.e. no live monsters in room)<br/>
 8	No player vs. player combat on the server. Servers do not have to support player-vs-player combat.<br/>
-ACCEPT<br/>
+### ACCEPT<br/>
 Sent by the server to acknowledge a non-error-causing action which has no other direct result. This is not needed for actions which cause other results, such as changing rooms or beginning a fight. It should be sent in response to clients sending messages, setting character stats, etc. <br/>
 Byte	Meaning<br/>
 0	Type, 8<br/>
 1	Type of action accepted.<br/>
-ROOM<br/>
+### ROOM<br/>
 Sent by the server to describe the room that the player is in. This should be an expected response to CHANGEROOM or START. Can be re-sent at any time, for example if the player is teleported or falls through a floor. Outgoing connections will be specified with a series of CONNECTION messages. Monsters and players in the room should be listed using a series of CHARACTER messages.<br/>
 Byte	Meaning<br/>
 0	Type, 9<br/>
@@ -68,7 +68,7 @@ Byte	Meaning<br/>
 3-34	Room name, 32 bytes in length<br/>
 35-36	Room description length<br/>
 37+	Room description. This can be shown to the player.<br/>
-CHARACTER<br/>
+### CHARACTER<br/>
 Sent by both the client and the server. The server will send this message to show the client changes to their player's status, such as in health or gold. The server will also use this message to show other players or monsters in the room the player is in or elsewhere.<br/> The client should expect to receive character messages at any time, which may be updates to the player or others.<br/>
 The client will use this message to set the name, description, attack, defense, regen, and flags when the character is created. It can also be used to reprise an abandoned or deceased character.<br/>
 Byte	Meaning<br/>
@@ -99,11 +99,11 @@ Byte	Meaning<br/>
 3-4	Stat limit<br/>
 5-6	Description Length<br/>
 7+	Game description<br/>
-LEAVE<br/>
+### LEAVE<br/>
 Used by the client to leave the game. This is a graceful way to disconnect. The server never terminates, so it doesn't send LEAVE.<br/>
 Byte	Meaning<br/>
 0	Type, 12<br/>
-CONNECTION<br/>
+### CONNECTION<br/>
 Used by the server to describe rooms connected to the room the player is in. The client should expect a series of these when changing rooms, but they may be sent at any time. For example, after a fight, a secret staircase may extend out of the ceiling enabling another connection.<br/>
 Byte	Meaning<br/>
 0	Type, 13<br/>
@@ -111,7 +111,7 @@ Byte	Meaning<br/>
 3-34	Room name, 32 bytes in length<br/>
 35-36	Room description length<br/>
 37+	Room description. This can be shown to the player.<br/>
-Fight Calculations<br/>
+### Fight Calculations<br/>
 Consider the following player and monster:<br/>
 Name:  Trudy<br/>
 Description: Black Hat Security Expert<br/>
